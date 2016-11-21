@@ -1,0 +1,9 @@
+2016-11-18 15:19:31,530 [INFO] processing input.txt
+2016-11-18 15:19:39,397 [INFO] tokenized_sentence length = 32777
+2016-11-18 15:19:39,505 [INFO] Found 14217 unique words tokens.
+2016-11-18 15:19:39,516 [INFO] Using vocabulary size 4000.
+2016-11-18 15:19:39,517 [INFO] The least frequent word in our vocabulary is den and appeared 4 times
+2016-11-18 15:19:39,557 [INFO] Example sentence: First Citizen:
+2016-11-18 15:19:39,558 [INFO] Example sentence after Pre-processing: ['SENTENCE_START', 'First', 'Citizen', ':', 'SENTENCE_END']
+2016-11-18 15:19:39,719 [INFO] Example x_train: [0, 132, 314, 3]
+2016-11-18 15:19:39,719 [INFO] Example y_train: [132, 314, 3, 1]

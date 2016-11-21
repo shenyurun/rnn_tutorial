@@ -1,0 +1,9 @@
+2016-11-18 15:18:28,090 [INFO] processing input.txt
+2016-11-18 15:18:35,935 [INFO] tokenized_sentence length = 32777
+2016-11-18 15:18:36,065 [INFO] Found 14217 unique words tokens.
+2016-11-18 15:18:36,081 [INFO] Using vocabulary size 8000.
+2016-11-18 15:18:36,081 [INFO] The least frequent word in our vocabulary is bridge and appeared 1 times
+2016-11-18 15:18:36,158 [INFO] Example sentence: First Citizen:
+2016-11-18 15:18:36,160 [INFO] Example sentence after Pre-processing: ['SENTENCE_START', 'First', 'Citizen', ':', 'SENTENCE_END']
+2016-11-18 15:18:36,412 [INFO] Example x_train: [0, 132, 314, 3]
+2016-11-18 15:18:36,413 [INFO] Example y_train: [132, 314, 3, 1]

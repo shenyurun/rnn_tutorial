@@ -14,35 +14,61 @@ from rnn_theano import RNNTheano
 import pdb
 import ast
 
-_VOCABULARY_SIZE = int(os.environ.get('VOCABULARY_SIZE', '8000'))
-_HIDDEN_DIM = int(os.environ.get('HIDDEN_DIM', '80'))
-_LEARNING_RATE = float(os.environ.get('LEARNING_RATE', '0.5'))
-_NEPOCH = int(os.environ.get('NEPOCH', '10'))
+_VOCABULARY_SIZE = int(os.environ.get('VOCABULARY_SIZE', '4000'))
+_HIDDEN_DIM = int(os.environ.get('HIDDEN_DIM', '40'))
+_LEARNING_RATE = float(os.environ.get('LEARNING_RATE', '0.05'))
+_NEPOCH = int(os.environ.get('NEPOCH', '30'))
 _MODEL_FILE = os.environ.get('MODEL_FILE')
 
-def train_with_sgd(model, X_train, y_train, learning_rate=0.005, nepoch=1, evaluate_loss_after=5):
+def train_with_sgd(model, X_all, y_all, learning_rate=0.005, nepoch=1, evaluate_loss_after=2):
     # We keep track of the losses so we can plot them later
     losses = []
     num_examples_seen = 0
+
+    pdb.set_trace()
+    num_samples = len(X_all)
+    num_train = int(num_samples * 0.8)
+    X_train = X_all[0:num_train]
+    y_train = y_all[0:num_train]
+    X_val = X_all[num_train:num_samples]
+    y_val = y_all[num_train:num_samples]
+
     for epoch in range(nepoch):
         # Optionally evaluate the loss
         if (epoch % evaluate_loss_after == 0):
+            # Output part of training samples
+            for x,y in zip(X_train[0:10],y_train[0:10]):
+                pred = model.predict(x)
+                print("train label: %s" % y)
+                print("train prediction: %s" % pred)
+    
             loss = model.calculate_loss(X_train, y_train)
             losses.append((num_examples_seen, loss))
             time = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
             print "%s: Loss after num_examples_seen=%d epoch=%d: %f" % (time, num_examples_seen, epoch, loss)
+          
             # Adjust the learning rate if loss increases
             if (len(losses) > 1 and losses[-1][1] > losses[-2][1]):
                 learning_rate = learning_rate * 0.5  
                 print "Setting learning rate to %f" % learning_rate
             sys.stdout.flush()
+            
             # ADDED! Saving model oarameters
             save_model_parameters_theano("./data/rnn-theano-%d-%d-%s.npz" % (model.hidden_dim, model.word_dim, time), model)
+        
         # For each training example...
         for i in range(len(y_train)):
             # One SGD step
             model.sgd_step(X_train[i], y_train[i], learning_rate)
             num_examples_seen += 1
+        
+        # Validation
+        loss = model.calculate_loss(X_val, y_val)
+        print "Loss on validation: %f" % loss
+        perplex = model.calculate_perplexity(X_val, y_val)
+        print "Perplexity on validation: %f" % perplex
+        accuracy = model.calculate_accuracy(X_val, y_val)
+        print "Accuracy on validation: %f" % accuracy
 
 vocabulary_size = _VOCABULARY_SIZE
 unknown_token = "UNKNOWN_TOKEN"
@@ -86,13 +112,13 @@ sentence_end_token = "SENTENCE_END"
 
 print "Reading training data..."
 X_train = []
-with open('train.bn', 'rb') as f:
+with open('data/train2.bn', 'rb') as f:
     train_data = f.readlines()
     for x in train_data:
         x = ast.literal_eval(x)
         X_train.append(x)
 y_train = []
-with open('trainLabel.bn', 'rb') as f:
+with open('data/label2.bn', 'rb') as f:
     train_label = f.readlines()
     for y in train_label:
         y = ast.literal_eval(y)
@@ -100,11 +126,11 @@ with open('trainLabel.bn', 'rb') as f:
 
 
 # Temporarily use a small part of training samples
-# X_train = X_train[::50]
-# y_train = y_train[::50]
+# X_train = X_train[::100]
+# y_train = y_train[::100]
 
 # Train rnn model
-model = RNNTheano(vocabulary_size, hidden_dim=_HIDDEN_DIM)
+model = RNNTheano(vocabulary_size, hidden_dim=_HIDDEN_DIM, bptt_truncate=3)
 t1 = time.time()
 model.sgd_step(X_train[10], y_train[10], _LEARNING_RATE)
 t2 = time.time()
@@ -116,34 +142,40 @@ if _MODEL_FILE != None:
 train_with_sgd(model, X_train, y_train, nepoch=_NEPOCH, learning_rate=_LEARNING_RATE)
 
 # Test the model
-print "Reading test data..."
-X_test = []
-with open('test.bn', 'rb') as f:
-    test_data = f.readlines()
-    for x in test_data:
-        x = ast.literal_eval(x)
-        X_test.append(x)
-y_test = []
-with open('testLabel.bn', 'rb') as f:
-    test_label = f.readlines()
-    for y in test_label:
-        y = ast.literal_eval(y)
-        y_test.append(y)
+# print "Reading test data..."
+# X_test = []
+# with open('data/test.bn', 'rb') as f:
+#     test_data = f.readlines()
+#     for x in test_data:
+#         x = ast.literal_eval(x)
+#         X_test.append(x)
+# y_test = []
+# with open('data/testLabel.bn', 'rb') as f:
+#     test_label = f.readlines()
+#     for y in test_label:
+#         y = ast.literal_eval(y)
+#         y_test.append(y)
 
 # To be removed
-# X_test = X_test[::50]
-# y_test = y_test[::50]
+# X_test = X_test[::100]
+# y_test = y_test[::100]
 
 # Evaluate the model
 # Cross entropy
-loss = model.calculate_loss(X_test, y_test)
-print "Loss: %f" % loss
+# loss = model.calculate_loss(X_test, y_test)
+# print "Loss: %f" % loss
 
 # Bigram perplexity
-perplex = model.calculate_perplexity(X_test, y_test)
-print "Perplexity: %f" % perplex
+# perplex = model.calculate_perplexity(X_test, y_test)
+# print "Perplexity: %f" % perplex
 
 # Accurary
-accuracy = model.calculate_accuracy(X_test, y_test)
-print "Accuracy: %f" % accuracy
+# accuracy = model.calculate_accuracy(X_test, y_test)
+# print "Accuracy: %f" % accuracy
 
+# for x,y in zip(X_test,y_test):
+#     pred = model.predict(x)
+#     print "test label: "
+#     print(y[:])
+#     print "test prediction: "
+#     print(pred[:])
