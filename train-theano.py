@@ -11,21 +11,22 @@ import time
 from datetime import datetime
 from utils import *
 from rnn_theano import RNNTheano
+from rnn_theano import gradient_check_theano
 import pdb
 import ast
 
 _VOCABULARY_SIZE = int(os.environ.get('VOCABULARY_SIZE', '4000'))
 _HIDDEN_DIM = int(os.environ.get('HIDDEN_DIM', '40'))
-_LEARNING_RATE = float(os.environ.get('LEARNING_RATE', '0.05'))
-_NEPOCH = int(os.environ.get('NEPOCH', '30'))
+_LEARNING_RATE = float(os.environ.get('LEARNING_RATE', '0.5'))
+_NEPOCH = int(os.environ.get('NEPOCH', '3'))
 _MODEL_FILE = os.environ.get('MODEL_FILE')
 
-def train_with_sgd(model, X_all, y_all, learning_rate=0.005, nepoch=1, evaluate_loss_after=2):
+def train_with_sgd(model, X_all, y_all, learning_rate=0.005, nepoch=1, evaluate_loss_after=1):
     # We keep track of the losses so we can plot them later
     losses = []
     num_examples_seen = 0
 
-    pdb.set_trace()
+#    pdb.set_trace()
     num_samples = len(X_all)
     num_train = int(num_samples * 0.8)
     X_train = X_all[0:num_train]
@@ -34,6 +35,15 @@ def train_with_sgd(model, X_all, y_all, learning_rate=0.005, nepoch=1, evaluate_
     y_val = y_all[num_train:num_samples]
 
     for epoch in range(nepoch):
+        # For each training example...
+        for i in range(len(y_train)):
+            # One SGD step
+            model.sgd_step(X_train[i], y_train[i], learning_rate)
+            num_examples_seen += 1
+        
+        
+        gradient_check_theano(model, X_train[100], y_train[100], h=0.001, error_threshold=0.01)
+        
         # Optionally evaluate the loss
         if (epoch % evaluate_loss_after == 0):
             # Output part of training samples
@@ -45,7 +55,7 @@ def train_with_sgd(model, X_all, y_all, learning_rate=0.005, nepoch=1, evaluate_
             loss = model.calculate_loss(X_train, y_train)
             losses.append((num_examples_seen, loss))
             time = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-            print "%s: Loss after num_examples_seen=%d epoch=%d: %f" % (time, num_examples_seen, epoch, loss)
+            print "%s: Loss after num_examples_seen=%d epoch=%d: %f" % (time, num_examples_seen, epoch+1, loss)
           
             # Adjust the learning rate if loss increases
             if (len(losses) > 1 and losses[-1][1] > losses[-2][1]):
@@ -55,12 +65,6 @@ def train_with_sgd(model, X_all, y_all, learning_rate=0.005, nepoch=1, evaluate_
             
             # ADDED! Saving model oarameters
             save_model_parameters_theano("./data/rnn-theano-%d-%d-%s.npz" % (model.hidden_dim, model.word_dim, time), model)
-        
-        # For each training example...
-        for i in range(len(y_train)):
-            # One SGD step
-            model.sgd_step(X_train[i], y_train[i], learning_rate)
-            num_examples_seen += 1
         
         # Validation
         loss = model.calculate_loss(X_val, y_val)
@@ -140,6 +144,9 @@ if _MODEL_FILE != None:
     load_model_parameters_theano(_MODEL_FILE, model)
 
 train_with_sgd(model, X_train, y_train, nepoch=_NEPOCH, learning_rate=_LEARNING_RATE)
+
+
+#gradient_check_theano(model, x, y, h=0.001, error_threshold=0.01)
 
 # Test the model
 # print "Reading test data..."

@@ -3,6 +3,7 @@ import theano as theano
 import theano.tensor as T
 from utils import *
 import operator
+import pdb
 
 class RNNTheano:
     
@@ -43,9 +44,29 @@ class RNNTheano:
         o_error = T.sum(T.nnet.categorical_crossentropy(o, y))
         
         # Gradients
-        dU = T.grad(o_error, U)
-        dV = T.grad(o_error, V)
-        dW = T.grad(o_error, W)
+        # dU = T.grad(o_error, U)
+        # dV = T.grad(o_error, V)
+        # dW = T.grad(o_error, W)
+        
+        # We accumulate the gradients in these variables
+        dU = np.zeros(U.get_value().shape)
+        dV = np.zeros(V.get_value().shape)
+        dW = np.zeros(W.get_value().shape)
+        delta_o = o
+        pdb.set_trace()
+        delta_o[np.arange(y.shape[0]), y] -= 1.
+        # For each output backwards...
+        for t in np.arange(y.shape[0])[::-1]:
+            dV += np.outer(delta_o[t], s[t].T)
+            # Initial delta calculation
+            delta_t = V.T.dot(delta_o[t]) * (1 - (s[t] ** 2))
+            # Backpropagation through time (for at most self.bptt_truncate steps)
+            for bptt_step in np.arange(max(0, t-self.bptt_truncate), t+1)[::-1]:
+                  # print "Backpropagation step t=%d bptt step=%d " % (t, bptt_step)
+                  dW += np.outer(delta_t, s[bptt_step-1])              
+                  dU[:,x[bptt_step]] += delta_t
+                  # Update delta for next step
+                  delta_t = W.T.dot(delta_t) * (1 - s[bptt_step-1] ** 2)
         
         # Assign functions
         self.forward_propagation = theano.function([x], o)
@@ -61,19 +82,19 @@ class RNNTheano:
                               (self.W, self.W - learning_rate * dW)])
     
     def calculate_total_loss(self, X, Y):
-        return np.sum([self.ce_error(x,y) for x,y in zip(X,Y)])
+        return np.sum([self.ce_error(x,y)/float(len(x)) for x,y in zip(X,Y)])
     
     def calculate_loss(self, X, Y):
         # Divide calculate_loss by the number of words
-        num_words = np.sum([len(y) for y in Y])
-        return self.calculate_total_loss(X,Y)/float(num_words)   
+        # num_words = np.sum([len(y) for y in Y])
+        return self.calculate_total_loss(X,Y)/float(len(Y))   
 
     def calculate_total_perplexity(self, X, Y):
-        return np.sum([np.sum([self.ce_error(x[i:i+2],y[i:i+2]) for i in range(len(x)-1)]) for x,y in zip(X,Y)])
+        return np.sum([np.sum([self.ce_error(x[i:i+2],y[i:i+2]) for i in range(len(x)-1)])/float(2*(len(x)-1)) for x,y in zip(X,Y)])
     
     def calculate_perplexity(self, X, Y):
-        num_words = np.sum([len(y) for y in Y])
-        return self.calculate_total_perplexity(X,Y)/float(num_words)
+        #num_words = np.sum([len(y) for y in Y])
+        return self.calculate_total_perplexity(X,Y)/float(len(X))
 
     def calculate_total_accuracy(self, X, Y):
         return np.sum([(y == self.predict(x)).sum()/float(len(x)) for x,y in zip(X,Y)])
@@ -123,6 +144,6 @@ def gradient_check_theano(model, x, y, h=0.001, error_threshold=0.01):
                 print "Estimated_gradient: %f" % estimated_gradient
                 print "Backpropagation gradient: %f" % backprop_gradient
                 print "Relative Error: %f" % relative_error
-                return 
+                #return 
             it.iternext()
         print "Gradient check for parameter %s passed." % (pname)
