@@ -28,10 +28,13 @@ class RNNTheano:
         U, V, W = self.U, self.V, self.W
         x = T.ivector('x')
         y = T.ivector('y')
+
+#       X = T.extra_ops.to_one_hot(x, 4000)
         def forward_prop_step(x_t, s_t_prev, U, V, W):
             s_t = T.tanh(U[:,x_t] + W.dot(s_t_prev))
             o_t = T.nnet.softmax(V.dot(s_t))
             return [o_t[0], s_t]
+
         [o,s], updates = theano.scan(
             forward_prop_step,
             sequences=x,
@@ -44,35 +47,37 @@ class RNNTheano:
         o_error = T.sum(T.nnet.categorical_crossentropy(o, y))
         
         # Gradients
-        # dU = T.grad(o_error, U)
-        # dV = T.grad(o_error, V)
-        # dW = T.grad(o_error, W)
-        
-        # We accumulate the gradients in these variables
-        dU = np.zeros(U.get_value().shape)
-        dV = np.zeros(V.get_value().shape)
-        dW = np.zeros(W.get_value().shape)
-        delta_o = o
-        pdb.set_trace()
-        delta_o[np.arange(y.shape[0]), y] -= 1.
-        # For each output backwards...
-        for t in np.arange(y.shape[0])[::-1]:
-            dV += np.outer(delta_o[t], s[t].T)
-            # Initial delta calculation
-            delta_t = V.T.dot(delta_o[t]) * (1 - (s[t] ** 2))
-            # Backpropagation through time (for at most self.bptt_truncate steps)
-            for bptt_step in np.arange(max(0, t-self.bptt_truncate), t+1)[::-1]:
-                  # print "Backpropagation step t=%d bptt step=%d " % (t, bptt_step)
-                  dW += np.outer(delta_t, s[bptt_step-1])              
-                  dU[:,x[bptt_step]] += delta_t
-                  # Update delta for next step
-                  delta_t = W.T.dot(delta_t) * (1 - s[bptt_step-1] ** 2)
+        dU = T.grad(o_error, U)
+        dV = T.grad(o_error, V)
+        dW = T.grad(o_error, W)
+#       dx = T.grad(o_error, x)
+
+#       # We accumulate the gradients in these variables
+#       dU = np.zeros(U.get_value().shape)
+#       dV = np.zeros(V.get_value().shape)
+#       dW = np.zeros(W.get_value().shape)
+#       delta_o = o
+#       pdb.set_trace()
+#       delta_o[np.arange(y.shape[0]), y] -= 1.
+#       # For each output backwards...
+#       for t in np.arange(y.shape[0])[::-1]:
+#           dV += np.outer(delta_o[t], s[t].T)
+#           # Initial delta calculation
+#           delta_t = V.T.dot(delta_o[t]) * (1 - (s[t] ** 2))
+#           # Backpropagation through time (for at most self.bptt_truncate steps)
+#           for bptt_step in np.arange(max(0, t-self.bptt_truncate), t+1)[::-1]:
+#                 # print "Backpropagation step t=%d bptt step=%d " % (t, bptt_step)
+#                 dW += np.outer(delta_t, s[bptt_step-1])              
+#                 dU[:,x[bptt_step]] += delta_t
+#                 # Update delta for next step
+#                 delta_t = W.T.dot(delta_t) * (1 - s[bptt_step-1] ** 2)
         
         # Assign functions
         self.forward_propagation = theano.function([x], o)
         self.predict = theano.function([x], prediction)
         self.ce_error = theano.function([x, y], o_error)
         self.bptt = theano.function([x, y], [dU, dV, dW])
+#        self.bpttx = theano.function([x, y], dx)
         
         # SGD
         learning_rate = T.scalar('learning_rate')
@@ -105,9 +110,10 @@ class RNNTheano:
 
 def gradient_check_theano(model, x, y, h=0.001, error_threshold=0.01):
     # Overwrite the bptt attribute. We need to backpropagate all the way to get the correct gradient
-    model.bptt_truncate = 1000
+    model.bptt_truncate = 10
     # Calculate the gradients using backprop
     bptt_gradients = model.bptt(x, y)
+#   bptt_gradients[:] = [grd / len(x) for grd in bptt_gradients]
     # List of all parameters we want to chec.
     model_parameters = ['U', 'V', 'W']
     # Gradient check for each parameter
@@ -146,4 +152,46 @@ def gradient_check_theano(model, x, y, h=0.001, error_threshold=0.01):
                 print "Relative Error: %f" % relative_error
                 #return 
             it.iternext()
-        print "Gradient check for parameter %s passed." % (pname)
+#        print "Gradient check for parameter %s passed." % (pname)
+
+
+#def gradient_check_input(model, x, y, h=0.001, error_threshold=0.01):
+#   # Overwrite the bptt attribute. We need to backpropagate all the way to get the correct gradient
+#   model.bptt_truncate = 1000
+#   # Calculate the gradients using backprop
+#   bptt_gradients = model.bptt(x, y)
+#   # Get the actual parameter value from the mode, e.g. model.W
+#   parameter_T = operator.attrgetter('x')(model)
+#   parameter = parameter_T.get_value()
+#   print "Performing gradient check for parameter x with size %d." % parameter.shape[0]
+#   # Iterate over each element of the parameter matrix, e.g. (0,0), (0,1), ...
+#   it = np.nditer(parameter, op_flags=['readwrite'])
+#   while not it.finished:
+#       ix = it.iterindex
+#       # Save the original value so we can reset it later
+#       original_value = parameter[ix]
+#       # Estimate the gradient using (f(x+h) - f(x-h))/(2*h)
+#       parameter[ix] = original_value + h
+#       parameter_T.set_value(parameter)
+#       gradplus = model.calculate_total_loss([x],[y])
+#       parameter[ix] = original_value - h
+#       parameter_T.set_value(parameter)
+#       gradminus = model.calculate_total_loss([x],[y])
+#       estimated_gradient = (gradplus - gradminus)/(2*h)
+#       parameter[ix] = original_value
+#       parameter_T.set_value(parameter)
+#       # The gradient for this parameter calculated using backpropagation
+#       backprop_gradient = bptt_gradients[ix]
+#       # calculate The relative error: (|x - y|/(|x| + |y|))
+#       relative_error = np.abs(backprop_gradient - estimated_gradient)/(np.abs(backprop_gradient) + np.abs(estimated_gradient))
+#       # If the error is to large fail the gradient check
+#       if relative_error > error_threshold:
+#           print "Gradient Check ERROR: ix=%s" % ix
+#           print "+h Loss: %f" % gradplus
+#           print "-h Loss: %f" % gradminus
+#           print "Estimated_gradient: %f" % estimated_gradient
+#           print "Backpropagation gradient: %f" % backprop_gradient
+#           print "Relative Error: %f" % relative_error
+#           #return 
+#       it.iternext()
+#   #print "Gradient check for parameter %s passed." % (pname)

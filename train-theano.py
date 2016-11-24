@@ -15,8 +15,8 @@ from rnn_theano import gradient_check_theano
 import pdb
 import ast
 
-_VOCABULARY_SIZE = int(os.environ.get('VOCABULARY_SIZE', '4000'))
-_HIDDEN_DIM = int(os.environ.get('HIDDEN_DIM', '40'))
+_VOCABULARY_SIZE = int(os.environ.get('VOCABULARY_SIZE', '10'))
+_HIDDEN_DIM = int(os.environ.get('HIDDEN_DIM', '4'))
 _LEARNING_RATE = float(os.environ.get('LEARNING_RATE', '0.5'))
 _NEPOCH = int(os.environ.get('NEPOCH', '3'))
 _MODEL_FILE = os.environ.get('MODEL_FILE')
@@ -38,11 +38,11 @@ def train_with_sgd(model, X_all, y_all, learning_rate=0.005, nepoch=1, evaluate_
         # For each training example...
         for i in range(len(y_train)):
             # One SGD step
-            model.sgd_step(X_train[i], y_train[i], learning_rate)
+            model.agd_step(X_train[i], y_train[i], learning_rate)
             num_examples_seen += 1
         
         
-        gradient_check_theano(model, X_train[100], y_train[100], h=0.001, error_threshold=0.01)
+#        gradient_check_input(model, X_train[100], y_train[100], h=0.001, error_threshold=0.01)
         
         # Optionally evaluate the loss
         if (epoch % evaluate_loss_after == 0):
@@ -64,7 +64,7 @@ def train_with_sgd(model, X_all, y_all, learning_rate=0.005, nepoch=1, evaluate_
             sys.stdout.flush()
             
             # ADDED! Saving model oarameters
-            save_model_parameters_theano("./data/rnn-theano-%d-%d-%s.npz" % (model.hidden_dim, model.word_dim, time), model)
+#           save_model_parameters_theano("./data/rnn-theano-%d-%d-%s.npz" % (model.hidden_dim, model.word_dim, time), model)
         
         # Validation
         loss = model.calculate_loss(X_val, y_val)
@@ -114,36 +114,42 @@ sentence_end_token = "SENTENCE_END"
 # X_train = np.asarray([[word_to_index[w] for w in sent[:-1]] for sent in tokenized_sentences])
 # y_train = np.asarray([[word_to_index[w] for w in sent[1:]] for sent in tokenized_sentences])
 
-print "Reading training data..."
-X_train = []
-with open('data/train2.bn', 'rb') as f:
-    train_data = f.readlines()
-    for x in train_data:
-        x = ast.literal_eval(x)
-        X_train.append(x)
-y_train = []
-with open('data/label2.bn', 'rb') as f:
-    train_label = f.readlines()
-    for y in train_label:
-        y = ast.literal_eval(y)
-        y_train.append(y)
+#print "Reading training data..."
+#X_train = []
+#with open('data/train2.bn', 'rb') as f:
+#   train_data = f.readlines()
+#   for x in train_data:
+#       x = ast.literal_eval(x)
+#       X_train.append(x)
+#y_train = []
+#with open('data/label2.bn', 'rb') as f:
+#   train_label = f.readlines()
+#   for y in train_label:
+#       y = ast.literal_eval(y)
+#       y_train.append(y)
 
 
 # Temporarily use a small part of training samples
 # X_train = X_train[::100]
 # y_train = y_train[::100]
 
+x = np.random.randint(10, size=10, dtype='int32')
+y = np.random.randint(10, size=10, dtype='int32')
+
+#pdb.set_trace()
+
 # Train rnn model
-model = RNNTheano(vocabulary_size, hidden_dim=_HIDDEN_DIM, bptt_truncate=3)
-t1 = time.time()
-model.sgd_step(X_train[10], y_train[10], _LEARNING_RATE)
-t2 = time.time()
-print "SGD Step time: %f milliseconds" % ((t2 - t1) * 1000.)
+model = RNNTheano(vocabulary_size, hidden_dim=_HIDDEN_DIM, bptt_truncate=10)
+gradient_check_theano(model, x, y, h=0.001, error_threshold=0.01)
+#t1 = time.time()
+#model.s#agd_step(X_train[10], y_train[10], _LEARNING_RATE)
+#t2 = time.time()
+#print "SGD Step time: %f milliseconds" % ((t2 - t1) * 1000.)
 
-if _MODEL_FILE != None:
-    load_model_parameters_theano(_MODEL_FILE, model)
+#if _MODEL_FILE != None:
+#   load_model_parameters_theano(_MODEL_FILE, model)
 
-train_with_sgd(model, X_train, y_train, nepoch=_NEPOCH, learning_rate=_LEARNING_RATE)
+#train_with_sgd(model, X_train, y_train, nepoch=_NEPOCH, learning_rate=_LEARNING_RATE)
 
 
 #gradient_check_theano(model, x, y, h=0.001, error_threshold=0.01)
