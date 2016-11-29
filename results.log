@@ -1,0 +1,32 @@
+INFO:__main__:... training
+INFO:__main__:epoch 1, seq 40000/40000, tr loss 7.283733 te loss 7.063500 lr: 0.050000
+INFO:__main__:epoch 2, seq 40000/40000, tr loss 7.282660 te loss 7.122061 lr: 0.049950
+INFO:__main__:epoch 3, seq 40000/40000, tr loss 7.336918 te loss 7.195392 lr: 0.049900
+INFO:__main__:epoch 4, seq 40000/40000, tr loss 7.336140 te loss 7.206470 lr: 0.049850
+INFO:__main__:epoch 5, seq 40000/40000, tr loss 7.236416 te loss 7.113731 lr: 0.049800
+INFO:__main__:epoch 6, seq 40000/40000, tr loss 8042.168242 te loss 7006.417601 lr: 0.049750
+INFO:__main__:epoch 7, seq 40000/40000, tr loss 16901.977417 te loss 15218.974392 lr: 0.049701
+INFO:__main__:epoch 8, seq 40000/40000, tr loss 25210.663265 te loss 23672.487218 lr: 0.049651
+INFO:__main__:epoch 9, seq 40000/40000, tr loss 33397.858264 te loss 33060.601783 lr: 0.049601
+INFO:__main__:epoch 10, seq 40000/40000, tr loss 42345.959172 te loss 43064.732808 lr: 0.049552
+INFO:__main__:epoch 11, seq 40000/40000, tr loss 51597.104306 te loss 54214.943361 lr: 0.049502
+INFO:__main__:epoch 12, seq 40000/40000, tr loss 60705.365766 te loss 65315.031276 lr: 0.049453
+INFO:__main__:epoch 13, seq 40000/40000, tr loss 68870.102657 te loss 75326.609340 lr: 0.049403
+INFO:__main__:epoch 14, seq 40000/40000, tr loss 76577.745582 te loss 84893.133489 lr: 0.049354
+INFO:__main__:epoch 15, seq 40000/40000, tr loss 86311.150741 te loss 97507.716258 lr: 0.049305
+INFO:__main__:epoch 16, seq 40000/40000, tr loss 94744.878856 te loss 108833.559347 lr: 0.049255
+INFO:__main__:epoch 17, seq 40000/40000, tr loss 102183.230501 te loss 118585.184263 lr: 0.049206
+INFO:__main__:epoch 18, seq 40000/40000, tr loss 110962.733127 te loss 129303.298772 lr: 0.049157
+INFO:__main__:epoch 19, seq 40000/40000, tr loss 119457.559052 te loss 140066.351461 lr: 0.049108
+INFO:__main__:epoch 20, seq 40000/40000, tr loss 128100.158268 te loss 150009.019929 lr: 0.049059
+INFO:__main__:epoch 21, seq 40000/40000, tr loss 135091.043804 te loss 161233.154994 lr: 0.049009
+INFO:__main__:epoch 22, seq 40000/40000, tr loss 145014.395075 te loss 174038.507924 lr: 0.048960
+INFO:__main__:epoch 23, seq 40000/40000, tr loss 153233.928375 te loss 183867.209857 lr: 0.048911
+INFO:__main__:epoch 24, seq 40000/40000, tr loss 159575.118404 te loss 192095.882538 lr: 0.048863
+INFO:__main__:epoch 25, seq 40000/40000, tr loss 169008.336456 te loss 202830.911363 lr: 0.048814
+INFO:__main__:epoch 26, seq 40000/40000, tr loss 176664.526471 te loss 213512.196668 lr: 0.048765
+INFO:__main__:epoch 27, seq 40000/40000, tr loss 186907.991875 te loss 226653.732072 lr: 0.048716
+INFO:__main__:epoch 28, seq 40000/40000, tr loss 193778.028172 te loss 236722.692026 lr: 0.048667
+INFO:__main__:epoch 29, seq 40000/40000, tr loss 200185.426059 te loss 248747.959479 lr: 0.048619
+INFO:__main__:epoch 30, seq 40000/40000, tr loss 209443.218851 te loss 261456.221027 lr: 0.048570
+Elapsed time: 10817.879830
