@@ -1,0 +1,91 @@
+INFO:__main__:epoch 1, mb 1/1, tr loss 8.293301, tr zo 0.922145, te loss 8.293272 te zo 0.921976 lr: 0.050000
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3082, h0: 0.0000, bh: 0.0002, by: 0.0062}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 2, mb 1/1, tr loss 8.292164, tr zo 0.922135, te loss 8.292096 te zo 0.921976 lr: 0.049950
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3082, h0: 0.0000, bh: 0.0006, by: 0.0154}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 3, mb 1/1, tr loss 8.290840, tr zo 0.922135, te loss 8.290725 te zo 0.921976 lr: 0.049900
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3082, h0: 0.0000, bh: 0.0010, by: 0.0261}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 4, mb 1/1, tr loss 8.289422, tr zo 0.922135, te loss 8.289258 te zo 0.921976 lr: 0.049850
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3082, h0: 0.0000, bh: 0.0015, by: 0.0376}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 5, mb 1/1, tr loss 8.287958, tr zo 0.922135, te loss 8.287743 te zo 0.921976 lr: 0.049800
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3082, h0: 0.0000, bh: 0.0020, by: 0.0495}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 6, mb 1/1, tr loss 8.285887, tr zo 0.922135, te loss 8.285599 te zo 0.921976 lr: 0.049750
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3082, h0: 0.0000, bh: 0.0026, by: 0.0663}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 7, mb 1/1, tr loss 8.283270, tr zo 0.922135, te loss 8.282890 te zo 0.921976 lr: 0.049701
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3082, h0: 0.0000, bh: 0.0035, by: 0.0876}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 8, mb 1/1, tr loss 8.280162, tr zo 0.922135, te loss 8.279673 te zo 0.921976 lr: 0.049651
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3082, h0: 0.0000, bh: 0.0045, by: 0.1128}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 9, mb 1/1, tr loss 8.276613, tr zo 0.922135, te loss 8.276000 te zo 0.921976 lr: 0.049601
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3082, h0: 0.0000, bh: 0.0056, by: 0.1416}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 10, mb 1/1, tr loss 8.272669, tr zo 0.922135, te loss 8.271917 te zo 0.921976 lr: 0.049552
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3082, h0: 0.0000, bh: 0.0069, by: 0.1736}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 11, mb 1/1, tr loss 8.268370, tr zo 0.922135, te loss 8.267467 te zo 0.921976 lr: 0.049502
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3082, h0: 0.0000, bh: 0.0083, by: 0.2085}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 12, mb 1/1, tr loss 8.263752, tr zo 0.922135, te loss 8.262687 te zo 0.921976 lr: 0.049453
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3082, h0: 0.0000, bh: 0.0098, by: 0.2460}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 13, mb 1/1, tr loss 8.258847, tr zo 0.922135, te loss 8.257611 te zo 0.921976 lr: 0.049403
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3082, h0: 0.0000, bh: 0.0114, by: 0.2858}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 14, mb 1/1, tr loss 8.253686, tr zo 0.922135, te loss 8.252269 te zo 0.921976 lr: 0.049354
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3082, h0: 0.0000, bh: 0.0131, by: 0.3277}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 15, mb 1/1, tr loss 8.248296, tr zo 0.922135, te loss 8.246689 te zo 0.921976 lr: 0.049305
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3082, h0: 0.0000, bh: 0.0148, by: 0.3715}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 16, mb 1/1, tr loss 8.242699, tr zo 0.922135, te loss 8.240895 te zo 0.921976 lr: 0.049255
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3082, h0: 0.0000, bh: 0.0166, by: 0.4170}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 17, mb 1/1, tr loss 8.236917, tr zo 0.922135, te loss 8.234911 te zo 0.921976 lr: 0.049206
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3082, h0: 0.0000, bh: 0.0185, by: 0.4639}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 18, mb 1/1, tr loss 8.230970, tr zo 0.922135, te loss 8.228755 te zo 0.921976 lr: 0.049157
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3082, h0: 0.0000, bh: 0.0205, by: 0.5122}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 19, mb 1/1, tr loss 8.224875, tr zo 0.922135, te loss 8.222446 te zo 0.921976 lr: 0.049108
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3082, h0: 0.0000, bh: 0.0225, by: 0.5617}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 20, mb 1/1, tr loss 8.218648, tr zo 0.922135, te loss 8.216001 te zo 0.921976 lr: 0.049059
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3083, h0: 0.0000, bh: 0.0246, by: 0.6123}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 21, mb 1/1, tr loss 8.212302, tr zo 0.922135, te loss 8.209432 te zo 0.921976 lr: 0.049009
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3083, h0: 0.0000, bh: 0.0267, by: 0.6639}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 22, mb 1/1, tr loss 8.205851, tr zo 0.922135, te loss 8.202755 te zo 0.921976 lr: 0.048960
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3083, h0: 0.0000, bh: 0.0289, by: 0.7163}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 23, mb 1/1, tr loss 8.199306, tr zo 0.922135, te loss 8.195980 te zo 0.921976 lr: 0.048911
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3083, h0: 0.0000, bh: 0.0311, by: 0.7694}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 24, mb 1/1, tr loss 8.192677, tr zo 0.922135, te loss 8.189117 te zo 0.921976 lr: 0.048863
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3083, h0: 0.0000, bh: 0.0333, by: 0.8233}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 25, mb 1/1, tr loss 8.185973, tr zo 0.922135, te loss 8.182178 te zo 0.921976 lr: 0.048814
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3083, h0: 0.0000, bh: 0.0357, by: 0.8777}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 26, mb 1/1, tr loss 8.179202, tr zo 0.922135, te loss 8.175169 te zo 0.921976 lr: 0.048765
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3084, h0: 0.0000, bh: 0.0380, by: 0.9327}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 27, mb 1/1, tr loss 8.172372, tr zo 0.922135, te loss 8.168099 te zo 0.921976 lr: 0.048716
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3084, h0: 0.0000, bh: 0.0405, by: 0.9882}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 28, mb 1/1, tr loss 8.165489, tr zo 0.922135, te loss 8.160975 te zo 0.921976 lr: 0.048667
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3084, h0: 0.0000, bh: 0.0430, by: 1.0441}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 29, mb 1/1, tr loss 8.158560, tr zo 0.922135, te loss 8.153802 te zo 0.921976 lr: 0.048619
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3085, h0: 0.0000, bh: 0.0455, by: 1.1004}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+INFO:__main__:epoch 30, mb 1/1, tr loss 8.151590, tr zo 0.922135, te loss 8.146587 te zo 0.921976 lr: 0.048570
+INFO:__main__:norms: {W: 0.2295, W_in: 2.3093, W_out: 2.3085, h0: 0.0000, bh: 0.0481, by: 1.1570}
+INFO:__main__:sample output: [0 0 0 ..., 0 0 0]
+Elapsed time: 13446.566363
